@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-gcc src/main.c -o main
+gcc src/main.c src/functions.c -o main
 ./main
