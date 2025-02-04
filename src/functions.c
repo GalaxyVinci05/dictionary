@@ -1,5 +1,6 @@
 #include "functions.h"
 #include "types.h"
+#include <stdio.h>
 
 void inizializza()
 {
@@ -12,14 +13,15 @@ void inizializza()
 
 void ricevi_input(char* input, int limite)
 {
-    fgets(input, limite, stdin);
-    // scanf("%s", input);
+    bool input_vuoto = false;
+
+    fgets(input, limite + 1, stdin);
 
     // Verifica che la lunghezza di input rientri nel limite: in caso contrario ripete la funzione ricevi_input
-    if (strlen(input) > limite)
+    while (strlen(input) > limite && !input_vuoto)
     {
-        printf("\nLimite caratteri superato. Riprovare: ");
-        ricevi_input(input, limite);
+        fputs("\nErrore: limite caratteri superato. Riprovare: ", stdout);
+        fgets(input, limite, stdin);
     }
 }
 
@@ -28,4 +30,5 @@ void inserisci_parola(Parola* parola)
     printf("\n--- Inserimento nuova parola ---");
     printf("\nInserire la parola (max 50 caratteri): ");
     ricevi_input(parola->nome, MAX_LUNGHEZZA);
+    printf("Parola salvata come: %s", parola->nome);
 }
