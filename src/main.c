@@ -6,8 +6,8 @@ int main(void)
     bool esci = false;
     char azione;
 
-    Parola parole[MAX_LETTERE][MAX_PAROLE];
-    int indice_lettera, indice_parola = 0;
+    Parola parole[MAX_PAROLE];
+    int indice_parola = 0;
 
     do
     {
@@ -27,7 +27,7 @@ int main(void)
         switch (azione)
         {
             case '1':
-                inserisci_parola((Parola**)parole);
+                inserisci_parola(parole, indice_parola);
                 indice_parola++;
                 break;
             case '2':
