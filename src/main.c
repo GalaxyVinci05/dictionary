@@ -1,30 +1,34 @@
-#include <stdio.h>
-#include <stdbool.h>
 #include "functions.h"
 #include "types.h"
 
 int main(void)
 {
     bool esci = false;
-    // char input[MAX_LUNGHEZZA];
     char azione;
-    Parola parola;
 
-    // Variabile di controllo per scartare caratteri indesiderati in input
-    int ch;
+    Parola parole[MAX_LETTERE][MAX_PAROLE];
+    int indice_lettera, indice_parola = 0;
 
     do
     {
         inizializza();
         azione = getchar();
 
-        // Svuota il buffer di stdin scartando caratteri indesiderati come newline o End Of File
-        while ((ch = getchar()) != '\n' && ch != EOF);
+        // Previene cicli infiniti causati dall'aver incontrato EOF, ad esempio nel caso in cui l'utente preme Ctrl+D o Ctrl+Z
+        if (azione == EOF)
+        {
+            printf("\nTerminato dall'utente.\n");
+            exit(0);
+        }
+
+        // Svuota il buffer di stdin scartando caratteri newline residui
+        while (getchar() != '\n');
 
         switch (azione)
         {
             case '1':
-                inserisci_parola(&parola);
+                inserisci_parola((Parola**)parole);
+                indice_parola++;
                 break;
             case '2':
                 break;
