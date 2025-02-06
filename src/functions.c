@@ -1,11 +1,12 @@
 #include "functions.h"
 #include "types.h"
 
-void inizializza()
+void inizializza(int indice_parola)
 {
     printf("--- Dizionario ---\n\n");
+    printf("Parole salvate: %d\n\n", indice_parola);
     printf("1. Inserire una nuova parola\n");
-    printf("2. Ricercare una parola\n");
+    printf("2. Ricercare una parola nel dizionario\n");
     printf("3. Esci\n");
     printf("\nSelezionare l'operazione da eseguire digitando il numero corrispondente: ");
 }
@@ -18,9 +19,7 @@ void ricevi_input(char* input, int limite)
         {
             // Verifica che l'input non sia vuoto
             if (strlen(input) <= 1)
-            {
                 printf("\nErrore: nessun input inserito. Riprovare: ");
-            }
 
             // Verifica se l'ultimo carattere di input e' un carattere newline: in caso contrario l'input e' troppo lungo
             else if (strchr(input, '\n') == NULL)
@@ -36,13 +35,15 @@ void ricevi_input(char* input, int limite)
             exit(0);
         }
     } while (strchr(input, '\n') == NULL || strlen(input) <= 1);
+
+    // Rimuovi il carattere newline dalla stringa finale
+    input[strcspn(input, "\n")] = '\0';
 }
 
 void inserisci_parola(Parola *parole, int indice_parola)
 {
     // La parola nuova viene ordinata appena inserita dall'utente
     int indice_ordinato = indice_parola;
-    size_t n_sinonimi;
 
     printf("\n--- Inserimento nuova parola ---");
     printf("\nInserire la parola (max 100 caratteri): ");
@@ -50,29 +51,54 @@ void inserisci_parola(Parola *parole, int indice_parola)
     // Chiede input finche' le condizioni non sono rispettate
     while (!inserisci_nome(parole, &indice_ordinato));
 
-    printf("Parola salvata come: %s", parole[indice_ordinato].nome);
-    printf("\nInserire il significato (max 500 caratteri): ");
+    printf("Parola salvata come: '%s'", parole[indice_ordinato].nome);
+    printf("\n\nInserire il significato (max 500 caratteri): ");
 
     ricevi_input(parole[indice_ordinato].significato, MAX_LUNGHEZZA*5);
-    printf("Significato salvato come: %s", parole[indice_ordinato].significato);
+    printf("Significato salvato come: '%s'", parole[indice_ordinato].significato);
 
     inserisci_sinonimi(parole, indice_ordinato);
-    printf("Sinonimi salvati come:\n");
+    printf("Sinonimi salvati come: ");
 
-    n_sinonimi = sizeof(parole[indice_ordinato].sinonimi) / sizeof(parole[indice_ordinato].sinonimi[0]);
-    for (int i = 0; i < n_sinonimi; i++)
+    for (int i = 0; i < parole[indice_ordinato].n_sinonimi; i++)
+        printf("'%s' ", parole[indice_ordinato].sinonimi[i]);
+
+    printf("\n\n*Parola aggiunta al dizionario*\n\n");
+}
+
+void ricerca_parola(Parola *parole, int indice_parola)
+{
+    char chiave[MAX_LUNGHEZZA];
+    int indice;
+
+    printf("\n--- Ricerca parola ---");
+    printf("\nInserire la parola da cercare: ");
+
+    do
     {
-        printf("%s", parole[indice_ordinato].sinonimi[i]);
-    }
+        ricevi_input(chiave, MAX_LUNGHEZZA);
+        indice = ric_bin_ric(parole, chiave, 0, indice_parola-1);
 
-    printf("\n*Parola aggiunta al dizionario*\n\n");
+        if (indice == -1)
+            printf("\nParola non trovata. Riprovare: ");
+
+    } while (indice == -1);
+    
+    printf("\nParola trovata:");
+    printf("\nSignificato: '%s'", parole[indice].significato);
+    printf("\nSinonimi: ");
+
+    for (int i = 0; i < parole[indice].n_sinonimi; i++)
+        printf("'%s' ", parole[indice].sinonimi[i]);
+
+    printf("\n\n");
 }
 
 void inserisci_sinonimi(Parola *parole, int indice_parola)
 {
     char input[2];
     int n_sinonimi;
-    printf("\nInserire il numero di sinonimi (max 5): ");
+    printf("\n\nInserire il numero di sinonimi (max 5): ");
 
     do
     {
@@ -81,9 +107,7 @@ void inserisci_sinonimi(Parola *parole, int indice_parola)
         n_sinonimi = input[0] - '0';
 
         if (n_sinonimi < 1 || n_sinonimi > 5)
-        {
             printf("\nInserire un numero da 1 a 5: ");
-        }
     }
     while (n_sinonimi < 1 || n_sinonimi > 5);
 
@@ -92,6 +116,8 @@ void inserisci_sinonimi(Parola *parole, int indice_parola)
         printf("\nInserire sinonimo %d: ", i+1);
         ricevi_input(parole[indice_parola].sinonimi[i], MAX_LUNGHEZZA);
     }
+
+    parole[indice_parola].n_sinonimi = n_sinonimi;
 }
 
 bool inserisci_nome(Parola *parole, int *indice_parola)
@@ -132,7 +158,7 @@ bool inserisci_nome(Parola *parole, int *indice_parola)
 void ord_inser(Parola *parole, int *n, char *nuova_parola)
 {
     // Ordinamento per inserimento (si assume che il resto dell'array sia gia' ordinato)
-    // Complessita' O(n)
+    // Complessita' di tempo O(n)
     int i = *n-1;
     while (i >= 0 && strcmp(parole[i].nome, nuova_parola) > 0)
     {
@@ -143,4 +169,22 @@ void ord_inser(Parola *parole, int *n, char *nuova_parola)
     // Assegna l'indice ordinato dove continuare ad inserire i dati della parola
     *n = i+1;
     strcpy(parole[*n].nome, nuova_parola);
+}
+
+int ric_bin_ric(Parola *parole, char *chiave, int sx, int dx)
+{
+    // Ricerca binaria ricorsiva
+    // Complessita' di tempo O(log(n))
+    int med;
+    if (sx > dx)
+        return -1;
+
+    med = (sx + dx) / 2;
+
+    if (strcmp(chiave, parole[med].nome) == 0)
+        return med;
+    else if (strcmp(chiave, parole[med].nome) > 0)
+        return ric_bin_ric(parole, chiave, med+1, dx);
+    else
+        return ric_bin_ric(parole, chiave, sx, med-1);
 }

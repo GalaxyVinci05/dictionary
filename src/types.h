@@ -10,6 +10,7 @@ typedef struct {
     char nome[MAX_LUNGHEZZA];
     char significato[MAX_LUNGHEZZA*5];
     char sinonimi[MAX_SINONIMI][MAX_LUNGHEZZA];
+    int n_sinonimi;
 } Parola;
 
 #endif /* Tipi_h */

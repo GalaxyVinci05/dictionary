@@ -11,14 +11,7 @@ int main(void)
 
     do
     {
-        printf("Parole:\n");
-        for (int i = 0; i < indice_parola; i++)
-        {
-            printf("%s", parole[i].nome);
-            // printf("yey");
-        }
-
-        inizializza();
+        inizializza(indice_parola);
         azione = getchar();
 
         // Previene cicli infiniti causati dall'aver incontrato EOF, ad esempio nel caso in cui l'utente preme Ctrl+D o Ctrl+Z
@@ -38,6 +31,10 @@ int main(void)
                 indice_parola++;
                 break;
             case '2':
+                if (indice_parola > 0)
+                    ricerca_parola(parole, indice_parola);
+                else
+                    printf("\nNon ci sono parole nel dizionario.\n\n");
                 break;
             case '3':
                 esci = true;
@@ -49,5 +46,6 @@ int main(void)
     }
     while (!esci);
 
+    printf("\nArrivederci!\n");
     return 0;
 }
