@@ -11,6 +11,13 @@ int main(void)
 
     do
     {
+        printf("Parole:\n");
+        for (int i = 0; i < indice_parola; i++)
+        {
+            printf("%s", parole[i].nome);
+            // printf("yey");
+        }
+
         inizializza();
         azione = getchar();
 

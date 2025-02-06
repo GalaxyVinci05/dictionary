@@ -12,7 +12,8 @@
 void inizializza();
 void ricevi_input(char*, int);
 void inserisci_parola(Parola*, int);
+bool inserisci_nome(Parola*, int*);
 void inserisci_sinonimi(Parola*, int);
-bool inserisci_nome(Parola*, int);
+void ord_inser(Parola*, int*, char*);
 
 #endif /* Funzioni_h */

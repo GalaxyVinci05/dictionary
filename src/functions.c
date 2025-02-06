@@ -40,26 +40,29 @@ void ricevi_input(char* input, int limite)
 
 void inserisci_parola(Parola *parole, int indice_parola)
 {
+    // La parola nuova viene ordinata appena inserita dall'utente
+    int indice_ordinato = indice_parola;
+    size_t n_sinonimi;
+
     printf("\n--- Inserimento nuova parola ---");
-    printf("\nInserire la parola (max 50 caratteri): ");
+    printf("\nInserire la parola (max 100 caratteri): ");
 
-    while (!inserisci_nome(parole, indice_parola));
+    // Chiede input finche' le condizioni non sono rispettate
+    while (!inserisci_nome(parole, &indice_ordinato));
 
-    printf("Parola salvata come: %s", parole[indice_parola].nome);
-    printf("\nInserire il significato (max 50 caratteri): ");
+    printf("Parola salvata come: %s", parole[indice_ordinato].nome);
+    printf("\nInserire il significato (max 500 caratteri): ");
 
-    ricevi_input(parole[indice_parola].significato, MAX_LUNGHEZZA);
+    ricevi_input(parole[indice_ordinato].significato, MAX_LUNGHEZZA*5);
+    printf("Significato salvato come: %s", parole[indice_ordinato].significato);
 
-    printf("Significato salvato come: %s", parole[indice_parola].significato);
-
-    inserisci_sinonimi(parole, indice_parola);
-
+    inserisci_sinonimi(parole, indice_ordinato);
     printf("Sinonimi salvati come:\n");
 
-    size_t n_sinonimi = sizeof(parole[indice_parola].sinonimi) / sizeof(parole[indice_parola].sinonimi[0]);
+    n_sinonimi = sizeof(parole[indice_ordinato].sinonimi) / sizeof(parole[indice_ordinato].sinonimi[0]);
     for (int i = 0; i < n_sinonimi; i++)
     {
-        printf("%s", parole[indice_parola].sinonimi[i]);
+        printf("%s", parole[indice_ordinato].sinonimi[i]);
     }
 
     printf("\n*Parola aggiunta al dizionario*\n\n");
@@ -74,6 +77,7 @@ void inserisci_sinonimi(Parola *parole, int indice_parola)
     do
     {
         ricevi_input(input, 2);
+        // Conversione da carattere a intero
         n_sinonimi = input[0] - '0';
 
         if (n_sinonimi < 1 || n_sinonimi > 5)
@@ -88,10 +92,9 @@ void inserisci_sinonimi(Parola *parole, int indice_parola)
         printf("\nInserire sinonimo %d: ", i+1);
         ricevi_input(parole[indice_parola].sinonimi[i], MAX_LUNGHEZZA);
     }
-
 }
 
-bool inserisci_nome(Parola *parole, int indice_parola)
+bool inserisci_nome(Parola *parole, int *indice_parola)
 {
     char nome[MAX_LUNGHEZZA];
     char lettera, lettera_salvata;
@@ -100,7 +103,7 @@ bool inserisci_nome(Parola *parole, int indice_parola)
     ricevi_input(nome, MAX_LUNGHEZZA);
     lettera = tolower(nome[0]);
 
-    for (int i = 0; i < indice_parola; i++)
+    for (int i = 0; i < *indice_parola; i++)
     {
         lettera_salvata = tolower(parole[i].nome[0]);
 
@@ -110,7 +113,8 @@ bool inserisci_nome(Parola *parole, int indice_parola)
             printf("\nLa parola e' gia' presente nel dizionario. Riprovare: ");
             return false;
         }
-        
+
+        // Se esiste una parola con la stessa iniziale, incrementa il contatore
         else if (lettera == lettera_salvata)
             n_parole++;
     }
@@ -121,6 +125,22 @@ bool inserisci_nome(Parola *parole, int indice_parola)
         return false;
     }
 
-    strcpy(parole[indice_parola].nome, nome);
+    ord_inser(parole, indice_parola, nome);
     return true;
+}
+
+void ord_inser(Parola *parole, int *n, char *nuova_parola)
+{
+    // Ordinamento per inserimento (si assume che il resto dell'array sia gia' ordinato)
+    // Complessita' O(n)
+    int i = *n-1;
+    while (i >= 0 && strcmp(parole[i].nome, nuova_parola) > 0)
+    {
+        strcpy(parole[i+1].nome, parole[i].nome);
+        i--;
+    }
+
+    // Assegna l'indice ordinato dove continuare ad inserire i dati della parola
+    *n = i+1;
+    strcpy(parole[*n].nome, nuova_parola);
 }
