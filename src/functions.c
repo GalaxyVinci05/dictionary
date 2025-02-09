@@ -24,6 +24,7 @@ void ricevi_input(char* input, int limite)
             // Verifica se l'ultimo carattere di input e' un carattere newline: in caso contrario l'input e' troppo lungo
             else if (strchr(input, '\n') == NULL)
             {
+                // Rimuove caratteri newline residui
                 while (getchar() != '\n');
                 printf("\nErrore: limite caratteri superato. Riprovare: ");
             }

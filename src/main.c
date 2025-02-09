@@ -4,7 +4,7 @@
 int main(void)
 {
     bool esci = false;
-    char azione;
+    char azione[2];
 
     Parola parole[MAX_PAROLE];
     int indice_parola = 0;
@@ -12,19 +12,9 @@ int main(void)
     do
     {
         inizializza(indice_parola);
-        azione = getchar();
+        ricevi_input(azione, 2);
 
-        // Previene cicli infiniti causati dall'aver incontrato EOF, ad esempio nel caso in cui l'utente preme Ctrl+D o Ctrl+Z
-        if (azione == EOF)
-        {
-            printf("\nTerminato dall'utente.\n");
-            exit(0);
-        }
-
-        // Svuota il buffer di stdin scartando caratteri newline residui
-        while (getchar() != '\n');
-
-        switch (azione)
+        switch (azione[0])
         {
             case '1':
                 inserisci_parola(parole, indice_parola);
@@ -40,7 +30,7 @@ int main(void)
                 esci = true;
                 break;
             default:
-                printf("\nErrore: azione invalida, riprovare.\n\n");
+                printf("\nAzione invalida, riprovare.\n\n");
                 break;
         }
     }
@@ -49,5 +39,3 @@ int main(void)
     printf("\nArrivederci!\n");
     return 0;
 }
-
-// TODO: fix empty input
