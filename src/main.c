@@ -1,28 +1,25 @@
-#include "functions.h"
-#include "types.h"
+#include "../include/main.h"
 
 int main(void)
 {
+    Dizionario dizionario;
     bool esci = false;
     char azione[2];
 
-    Parola parole[MAX_PAROLE];
-    int indice_parola = 0;
-
     do
     {
-        inizializza(indice_parola);
+        inizializza(dizionario.n_parole);
         ricevi_input(azione, 2);
 
         switch (azione[0])
         {
             case '1':
-                inserisci_parola(parole, indice_parola);
-                indice_parola++;
+                inserisci_parola(&dizionario);
+                dizionario.n_parole++;
                 break;
             case '2':
-                if (indice_parola > 0)
-                    ricerca_parola(parole, indice_parola);
+                if (dizionario.n_parole > 0)
+                    ricerca_parola(&dizionario);
                 else
                     printf("\nNon ci sono parole nel dizionario.\n\n");
                 break;
