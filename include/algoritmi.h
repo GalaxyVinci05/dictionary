@@ -1,7 +1,7 @@
 #ifndef Algoritmi_h
 #define Algoritmi_h
 
-// IO_h -> Dichiarazioni delle funzioni contenenti gli algoritmi di ordinamento e ricerca utilizzati nel dizionario
+// IO_h -> Prototipi delle funzioni contenenti gli algoritmi di ordinamento e ricerca utilizzati nel dizionario
 
 #include <string.h>
 #include "strutture.h"

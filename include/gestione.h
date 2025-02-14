@@ -1,7 +1,7 @@
 #ifndef Gestione_h
 #define Gestione_h
 
-// IO_h -> Dichiarazioni delle funzioni inerenti alla gestione del dizionario, dunque l'inserimento delle parole
+// IO_h -> Prototipi delle funzioni inerenti alla gestione del dizionario, dunque l'inserimento delle parole
 
 #include <stdbool.h>
 #include <ctype.h>

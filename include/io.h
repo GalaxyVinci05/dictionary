@@ -1,7 +1,7 @@
 #ifndef IO_h
 #define IO_h
 
-// IO_h -> Dichiarazioni delle funzioni inerenti all'input e l'output del menu del dizionario e delle parole salvate
+// IO_h -> Prototipi delle funzioni inerenti all'input e l'output del menu del dizionario e delle parole salvate
 
 #include <stdio.h>
 #include <stdlib.h>
