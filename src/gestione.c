@@ -15,19 +15,25 @@ void inserisci_parola(Dizionario *dizionario)
     // Chiede input finche' le condizioni non sono rispettate
     while (!inserisci_nome(dizionario, &indice_ordinato));
 
-    printf("Parola salvata come: '%s'", dizionario->parole[indice_ordinato].nome);
+    printf("\nParola salvata.");
     printf("\n\nInserire il significato (max 500 caratteri): ");
 
     ricevi_input(dizionario->parole[indice_ordinato].significato, MAX_LUNGHEZZA*5);
-    printf("Significato salvato come: '%s'", dizionario->parole[indice_ordinato].significato);
+    printf("\nSignificato salvato.");
 
     inserisci_sinonimi(dizionario, indice_ordinato);
-    printf("Sinonimi salvati come: ");
+    printf("\nSinonimi salvati.");
+
+    printf("\n\n*Parola aggiunta al dizionario*\n\n");
+
+    printf("Parola: '%s'\n", dizionario->parole[indice_ordinato].nome);
+    printf("Significato: '%s'\n", dizionario->parole[indice_ordinato].significato);
+    printf("Sinonimi: ");
 
     for (int i = 0; i < dizionario->parole[indice_ordinato].n_sinonimi; i++)
         printf("'%s' ", dizionario->parole[indice_ordinato].sinonimi[i]);
 
-    printf("\n\n*Parola aggiunta al dizionario*\n\n");
+    printf("\n\n");
 }
 
 // Inserisce il nome della nuova parola nel dizionario, e poi procede ad ordinarla al suo interno.
