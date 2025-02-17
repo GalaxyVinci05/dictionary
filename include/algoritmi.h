@@ -6,7 +6,7 @@
 #include <string.h>
 #include "strutture.h"
 
-void ord_inser(Dizionario*, int*, char*);
+void ordina_parola(Dizionario*, int*, char*);
 int ric_bin_ric(Dizionario*, char*, int, int);
 
 #endif /* Algoritmi_h */

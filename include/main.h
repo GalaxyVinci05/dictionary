@@ -1,7 +1,7 @@
 #ifndef Main_h
 #define Main_h
 
-// Main_h -> Importa tutti gli header
+// Main_h -> Importa tutti gli header in include/
 
 #include <stdio.h>
 #include <stdbool.h>

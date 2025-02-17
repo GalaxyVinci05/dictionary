@@ -13,7 +13,7 @@ typedef struct
     char nome[MAX_LUNGHEZZA];
     char significato[MAX_LUNGHEZZA*5];
     char sinonimi[MAX_SINONIMI][MAX_LUNGHEZZA];
-    int n_sinonimi;
+    int n_sinonimi;  // Numero di sinonimi della parola
 } Parola;
 
 typedef struct

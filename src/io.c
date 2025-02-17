@@ -14,8 +14,8 @@ void inizializza(int n_parole)
 }
 
 // Funzione generica per ricevere input dall'utente entro un limite di caratteri
-// Input: input (stringa vuota), limite (limite di caratteri concessi)
-// Output: modifica la stringa 'input' con l'input dell'utente non vuoto ed entro il 'limite' definito
+// Input: input (puntatore a una stringa), limite (limite di caratteri concessi)
+// Output: 'input' assume il valore dell'input inserito dall'utente, non vuoto ed entro il 'limite' definito
 void ricevi_input(char* input, int limite)
 {
     do
@@ -67,12 +67,21 @@ void ricerca_parola(Dizionario *dizionario)
 
     } while (indice == -1);
     
-    printf("\nParola trovata:");
+    printf("\n*Parola trovata*\n");
+    printf("\nParola: '%s'", dizionario->parole[indice].nome);
     printf("\nSignificato: '%s'", dizionario->parole[indice].significato);
     printf("\nSinonimi: ");
 
-    for (int i = 0; i < dizionario->parole[indice].n_sinonimi; i++)
-        printf("'%s' ", dizionario->parole[indice].sinonimi[i]);
+    // Se la parola contiene sinonimi, li stampa
+    if (dizionario->parole[indice].n_sinonimi > 0)
+    {
+        for (int i = 0; i < dizionario->parole[indice].n_sinonimi; i++)
+            printf("'%s' ", dizionario->parole[indice].sinonimi[i]);
+    }
+    else
+    {
+        printf("(nessuno)");
+    }
 
     printf("\n\n");
 }
