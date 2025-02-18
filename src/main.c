@@ -1,3 +1,19 @@
+/*
+*  --- Dizionario ---
+*
+*  Il seguente programma, che simula la gestione di un dizionario della lingua italiana, permette all’utente di:
+*  - Inserire nuove parole nel dizionario, inizialmente vuoto
+*  - Ricercare le parole al suo interno una volta salvate
+*
+*  Insieme alle parole, l'utente dovra' inserire anche il loro significato e un massimo di 5 sinonimi.
+*  La ricerca di una parola dunque, se essa esiste nel dizionario, mostrera':
+*  - Il nome della parola
+*  - Il suo significato
+*  - I suoi sinonimi, se ve ne sono
+*
+*  Infine vi possono essere un massimo di 5 parole nel dizionario con la stessa iniziale.
+*/
+
 #include "../include/main.h"
 
 int main(void)
