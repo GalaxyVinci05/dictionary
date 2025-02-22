@@ -1,5 +1,12 @@
 #include "../include/algoritmi.h"
 
+void scambia(Parola* parola1, Parola* parola2)
+{
+    Parola temp = *parola1;
+    *parola1 = *parola2;
+    *parola2 = temp;
+}
+
 // Funzione per l'ordinamento della nuova parola nel dizionario.
 // Input: dizionario, indice_ordinato (riceve il valore del numero di parole nel dizionario), nuova_parola (la parola inserita dall'utente)
 // Output: nuova parola ordinata nell'array di parole salvate, e indice_ordinato assume il valore del nuovo indice della parola
@@ -11,7 +18,8 @@ void ordina_parola(Dizionario *dizionario, int *indice_ordinato, char *nuova_par
     while (i >= 0 && strcmp(dizionario->parole[i].nome, nuova_parola) > 0)
     {
         // Sposta la parola corrente all'indice successivo e decrementa l'indice di controllo
-        strcpy(dizionario->parole[i+1].nome, dizionario->parole[i].nome);
+        // strcpy(dizionario->parole[i+1].nome, dizionario->parole[i].nome);
+        scambia(&dizionario->parole[i+1], &dizionario->parole[i]);
         i--;
     }
 
