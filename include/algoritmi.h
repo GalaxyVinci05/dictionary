@@ -6,7 +6,6 @@
 #include <string.h>
 #include "strutture.h"
 
-void scambia(Parola*, Parola*);
 void ordina_parola(Dizionario*, int*, char*);
 int ric_bin_ric(Dizionario*, char*, int, int);
 
